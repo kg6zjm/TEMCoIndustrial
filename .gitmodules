@@ -1,0 +1,4 @@
+[submodule "kg6zjm/odoo-product-pack"]
+	path = kg6zjm/odoo-product-pack
+	url = git@github.com:kg6zjm/odoo-product-pack.git
+	branch = master
