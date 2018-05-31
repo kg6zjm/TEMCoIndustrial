@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<odoo>
+  <data noupdate="1">
+    <record id="amazon_sale_tax" model="account.tax">
+      <field name="name">Amazon Sale Tax</field>
+      <field name="amount_type">fixed_set</field>
+      <field name="amount">0.0</field>
+    </record>
+    <record id="ca" model="amazon.site">
+        <field name="name">CA</field>
+        <field name="amazon_id">A2EUQ1WTGCTBG2</field>
+    </record>
+    <record id="cn" model="amazon.site">
+        <field name="name">CN</field>
+        <field name="amazon_id">AAHKV2X7AFYLW</field>
+    </record>
+    <record id="de" model="amazon.site">
+        <field name="name">DE</field>
+        <field name="amazon_id">A1PA6795UKMFR9</field>
+    </record>
+    <record id="es" model="amazon.site">
+        <field name="name">ES</field>
+        <field name="amazon_id">A1RKKUPIHCS9HS</field>
+    </record>
+    <record id="fr" model="amazon.site">
+        <field name="name">FR</field>
+        <field name="amazon_id">A13V1IB3VIYZZH</field>
+    </record>
+    <record id="in" model="amazon.site">
+      <field name="name">IN</field>
+      <field name="amazon_id">A21TJRUUN4KGV</field>
+    </record>
+    <record id="it" model="amazon.site">
+        <field name="name">IT</field>
+        <field name="amazon_id">APJ6JRA9NG5V4</field>
+    </record>
+    <record id="uk" model="amazon.site">
+        <field name="name">UK</field>
+        <field name="amazon_id">A1F83G8C2ARO7P</field>
+    </record>
+    <record id="us" model="amazon.site">
+        <field name="name">US</field>
+        <field name="amazon_id">ATVPDKIKX0DER</field>
+    </record>
+    <record id="jp" model="amazon.site">
+        <field name="name">JP</field>
+        <field name="amazon_id">A1VC38T7YXB528</field>
+    </record>
+    <record id="product_category_amazon" model="product.category">
+        <field name="parent_id" ref="product.product_category_all"/>
+        <field name="name">Amazon Delivery Services</field>
+    </record>
+  </data>
+</odoo>

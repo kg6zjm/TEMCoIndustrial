@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sale.amazon</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//div[@data-key='sale_management']" position="inside">
+                <h2>Amazon</h2>
+                 <div class="row mt16 o_settings_container">
+                    <div class="col-xs-12 col-md-6 o_setting_box" id="module_sale_amazon">
+                        <div class="o_setting_right_pane">
+                            <label string="Amazon Integrator"/>
+                            <div class="text-muted">
+                                Sell your products on Amazon
+                            </div>
+                            <div class="content-group">
+                                <div>
+                                    <button name="test_amazon_credentials" type="object" string="Test Amazon Crendentials" class="oe_link"/>
+                                    <button name="sync_amazon_orders" type="object" string="Sync Orders" class="oe_link"/>
+                                </div>
+                                <div>
+                                    <label for="seller_id"/>
+                                    <field name="seller_id" class="oe_inline"/>
+                                </div>
+                                <div>
+                                    <label for="access_key"/>
+                                    <field name="access_key" class="oe_inline"/>
+                                </div>
+                                <div>
+                                    <label for="secret_key"/>
+                                    <field name="secret_key" class="oe_inline"/>
+                                </div>
+                                <div>
+                                    <label for="amazon_site"/>
+                                    <field name="amazon_site" class="oe_inline" options="{'no_create': True, 'no_open': True}"/>
+                                </div>
+                                <div>
+                                    <label for="amazon_sales_team"/>
+                                    <field name="amazon_sales_team" class="oe_inline"/>
+                                </div>
+                                <div>
+                                    <label for="amazon_currency"/>
+                                    <field name="amazon_currency" class="oe_inline" options="{'no_create': True, 'no_open': True}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Wizzard to link existing listing with existing product -->
+    <record model="ir.ui.view" id="amazon_link_listing_view">
+        <field name="name">amazon.link.listing.form</field>
+        <field name="model">amazon.link.listing</field>
+        <field name="arch" type="xml">
+            <form string="Link Existing Listing">
+                <group colspan="2">
+                    <group>
+                        <field name="amazon_id_type"/>
+                    </group>
+                    <group>
+                        <field name="amazon_id"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="amazon_sku"/>
+                </group>
+                <field name="product_variant_count" invisible="1"/>
+                <group string="Variant Details" attrs="{'invisible':[('product_variant_count', '&lt;=', 0)]}">
+                    <field name="product_tmpl_id" invisible="1"/>
+                    <field name="product_variant_ids">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="name" readonly="1"/>
+                            <field name="amazon_sku"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button name="link_listing" type="object" string="Link Listing" class="btn btn-sm btn-primary"/>
+                    <button string="Cancel" class="btn btn-sm btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_link_existing_listing_product_amazon" model="ir.actions.act_window">
+      <field name="name">Link Existing Listing</field>
+      <field name="res_model">amazon.link.listing</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="amazon_link_listing_view"/>
+      <field name="target">new</field>
+    </record>
+</odoo>

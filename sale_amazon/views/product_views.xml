@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_sale_amazon_form_view" model="ir.ui.view">
+        <field name="name">product.sale.amazon.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//header" position="inside">
+                    <button name="publish_product_amazon_to_queue" type="object" string="List Item on Amazon" attrs="{'invisible': ['|', ('amazon_use', '=', False), ('amazon_state','not in', ['not_published', 'listing_ended'])]}"/>
+                    <button name="revise_product_amazon_to_queue" type="object" string="Revise Item on Amazon" attrs="{'invisible': ['|', ('amazon_use', '=', False), ('amazon_state', 'not in', ['published', 'missing_info'])]}"/>
+                    <button name="end_listing_product_amazon" type="object" string="End Item's Listing" attrs="{'invisible': [('amazon_state','!=','published')]}"/>
+                    <button name="%(action_link_existing_listing_product_amazon)d" type="action" string="Link With Amazon Existing Listing"  attrs="{'invisible': ['|', ('amazon_use', '=', False), ('amazon_state','not in', ['not_published', 'listing_ended'])]}"/>
+                </xpath>
+                <xpath expr="//form//sheet" position="before">
+                    <div class="oe_form_box_info oe_text_center" attrs="{'invisible': [('amazon_state', '!=', 'to_publish')]}">
+                        <p><strong>
+                            The product has been added to the queue. It will be published soon on Amazon. You will receive notification in a message in this product.
+                        </strong></p>
+                    </div>
+                    <div class="oe_form_box_info oe_text_center" attrs="{'invisible': [('amazon_state', '!=', 'to_revise')]}">
+                        <p><strong>
+                            The product has been added to the queue. It will be revised soon on Amazon. You will receive notification in a message in this product.
+                        </strong></p>
+                    </div>
+                    <div class="oe_form_box_info oe_text_center" attrs="{'invisible': [('amazon_state', '!=', 'missing_info')]}">
+                        <p><strong>
+                            There is some missing informations about this product on Amazon (ex: price, quantity, etc.). Please update these informations and revise the product.
+                        </strong></p>
+                    </div>
+                </xpath>
+                <div name="options" position="inside">
+                    <div>
+                        <field name="amazon_use"/>
+                        <label for="amazon_use"/>
+                    </div>
+                </div>
+                <notebook position="inside">
+                    <page string="Amazon Sale" name="amazon_sale" attrs="{'invisible':[('amazon_use','=', False)]}">
+                        <group>
+                            <field name="amazon_state"/>
+                            <field name="amazon_quantity_sold" attrs="{'invisible': ['|',('product_variant_count', '&lt;', 1),('amazon_state', '=', 'not_published')]}"/>
+                        </group>
+                        <div>
+                            <div>
+                                <field name="amazon_sync_stock"/>
+                                <label for="amazon_sync_stock"/>
+                            </div>
+                        </div>
+                        <group string="Reference" name="amazon_product_reference">
+                            <field name="amazon_product_type" attrs="{'invisible': [('product_variant_count', '&lt;', 1)]}"/>
+                            <field name="amazon_product_type_value" attrs="{'invisible': [('product_variant_count', '&lt;', 1)]}"/>
+                            <field name="amazon_product_link" widget="url" attrs="{'invisible': ['|', ('amazon_product_type', '=', None), ('amazon_product_type_value', '=', None)]}"/>
+                        </group>
+                        <group string="Offer" name="amazon_offer" colspan="2">
+                            <group>
+                                <field name="amazon_condition"/>
+                                <field name="amazon_fixed_price" attrs="{'invisible': [('product_variant_count', '&lt;', 1)]}"/>
+                                <field name="amazon_quantity" attrs="{'invisible': ['|',('amazon_sync_stock','=',True), ('product_variant_count', '&lt;', 1)]}"/>
+                            </group>
+                            <group>
+                                <field name="amazon_sku"/>
+                                <field name="amazon_fulfillment"/>
+                                <field name="amazon_fulfillment_center_id" attrs="{'invisible': [('amazon_fulfillment', '!=', 'AFN')]}"/>
+                            </group>
+                        </group>
+
+                        <label for="product_variant_ids" attrs="{'invisible': [('product_variant_count', '=', 1)]}"/>
+                        <field name="product_variant_ids" widget="one2many_list" attrs="{'invisible': [('product_variant_count', '=', 1)]}">
+                          <tree string="Variants" editable="bottom" create="false" delete="false">
+                            <field name="attribute_value_ids" widget="many2many_tags"/>
+                            <field name="amazon_use"/>
+                            <field name="amazon_state"/>
+                            <field name="amazon_product_type"/>
+                            <field name="amazon_product_type_value"/>
+                            <field name="amazon_sku"/>
+                            <field name="amazon_fixed_price"/>
+                            <field name="amazon_quantity"/>
+                            <field name="virtual_available"/>
+                            <field name="amazon_quantity_sold"/>
+                            <field name="amazon_shipping_price"/>
+                            <field name="amazon_condition"/>
+                            <field name="amazon_fulfillment"/>
+                            <field name="amazon_fulfillment_center_id" attrs="{'invisible': [('amazon_fulfillment', '!=', 'AFN')]}"/>
+                          </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </data>
+        </field>
+    </record>
+
+    <record id="product_product_amazon_form_view" model="ir.ui.view">
+        <field name="name">product.product.amazon.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Amazon Sale Variant" name="amazon_sale_variant">
+                    <group name="amazon_variant_data" colspan="2">
+                        <group>
+                            <field name="amazon_sku"/>
+                            <field name="amazon_product_type"/>
+                            <field name="amazon_quantity"/>
+                        </group>
+                        <group>
+                            <field name="amazon_fixed_price"/>
+                            <field name="amazon_product_type_value"/>
+                            <field name="amazon_quantity_sold"/>
+                            <field name="amazon_state"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="action_amazon_unlink_items_listings" model="ir.actions.server">
+        <field name="name">Unlink Amazon Items' Listings</field>
+        <field name="model_id" ref="sale.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="state">code</field>
+        <field name="code">records.unlink_listing_product_amazon()</field>
+    </record>
+</odoo>
